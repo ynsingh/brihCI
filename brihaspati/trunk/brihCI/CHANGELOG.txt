@@ -1,0 +1,236 @@
+
+SLCMS  Version 1.0 2017-07-17
+-----------------------------
+    * Functionality to map users with different role added.-Kishore
+
+SLCMS  Version 1.0 2017-07-15
+-----------------------------
+    * Improvement in Student admission, student semester registeration added.-Sumit
+
+SLCMS  Version 1.0 2017-07-14
+-----------------------------
+    * Seat reservation mechanism added; date difference and limits -mechanism added, bug fixes.-NKS, Abhay
+
+SLCMS  Version 1.0 2017-07-13
+-----------------------------
+    * Editing of profile now added.-Deepika
+    * Study center related multiple sql files merged into single one.-Rekha
+
+SLCMS  Version 1.0 2017-07-12
+-----------------------------
+    * Mapping functionlity for subject and paper to teacher, added.-OP
+    * Program's students list in faculty interface.- Manorama
+
+SLCMS  Version 1.0 2017-07-11
+-----------------------------
+    * Subect, semester and subject-semester rules archival system added.-NKS 
+    * Templates for subject-sem mapping done.-NKS
+    * Dropdown and calendar features added in during form fillup.-Rekha
+
+SLCMS  Version 1.0 2017-07-08
+-----------------------------
+    * Add, update and display of semester rules now functional.- NKS
+
+SLCMS  Version 1.0 2017-07-05
+-----------------------------
+    * Modification in semester rule table - NKS
+    * Grade master created, student entry and exit table added, admin menu modifications done -NKS
+
+SLCMS  Version 1.0 2017-07-03
+-----------------------------
+    * Data structure added (degree rule, semester rule, subject semester,master grade)- NKS
+    * Function added in common modele to update record with different where condition -NKS
+    * Data structure modified (student marks add grade field, remove credit rule) -NKS
+    * Student subject registration module added - Sharad
+
+SLCMS  Version 1.0 2017-06-30
+-----------------------------
+    * Student admission after entrance module, offline fee deposit mechanism -NKS, Sumit
+
+SLCMS  Version 1.0 2017-06-25
+-----------------------------
+    * Program Subject Paper archival mechanism -NKS
+    * Data structure modified ( program, subject paper)- NKS
+    * Data Structure added ( subject_paper_archive,credit_rule,subject_prerequisite) - NKS
+    * Modification for credit system and branch in ( Subject, Program and subject program paper)- NKS
+    * Add drop down in email setting  for modules -NKS
+    * Display mechanism  for Program Subject Paper archival-NKS
+
+SLCMS  Version 1.0 2017-06-23
+-----------------------------
+    * Menu list updated, new menu added under map,setup and archive -NKS
+    * Display mechanism  for audit trails-NKS
+
+SLCMS  Version 1.0 2017-06-22
+-----------------------------
+    * Bug fix in profile and Student home - Sharad
+    * Study center related management screens added- Rekhai
+    * Bug fix in profile - Deepika
+
+SLCMS  Version 1.0 2017-06-21
+-----------------------------
+    * View profile functionality added -Deepika
+    * Program category added -Raju
+
+SLCMS  Version 1.0 2017-06-20
+-----------------------------
+    * Multiple mail id as source used for sending mail to user -NKS
+    * Fees Master archival mechanism -NKS
+    * Display of archived fees master - NKS
+    * Category all is added for fees -NKS
+    * Student dashboard functionality added -Sharad
+
+SLCMS  Version 1.0 2017-06-19
+-----------------------------
+    * Modification in admin home page and display the program seat data -NKS
+    * Add data staructure of Program category- NKS
+    * Add on function in common model for getting different field from table - NKS
+
+SLCMS  Version 1.0 2017-06-17
+-----------------------------
+    * Bug fixes. Additions to database, GUI - NKS
+    * Bug fixes in program fees set up module -Vijay
+
+SLCMS  Version 1.0 2017-06-16
+-----------------------------
+    * Database updated, added student marks table - NKS
+    * GUI modification and help documentation - Deepika
+
+SLCMS  Version 1.0 2017-06-15
+-----------------------------
+    * teachers subject list mechanism added - Manorama
+
+SLCMS  Version 1.0 2017-06-14
+-----------------------------
+    * Bug fix and adding two function ( get acadyear and semester )in common model - NKS
+
+SLCMS  Version 1.0 2017-06-13
+-----------------------------
+    * modification in program data structure - manorama
+    * Modification in GUI - Raju
+
+SLCMS  Version 1.0 2017-06-06
+-----------------------------
+    * Update mail send and put the check for empty record. - NKS
+    * Role Page added, teacher functionality menu added. - Manorama
+
+SLCMS  Version 1.0 2017-06-05
+-----------------------------
+    * Mapping of program, subject and paper - functionality added. - Sharad
+
+SLCMS  Version 1.0 2017-06-03
+-----------------------------
+    * Admin GUI updated. - Raju
+    * adding one function for check duplicate with as many as field . NKS
+
+SLCMS  Version 1.0 2017-06-01
+-----------------------------
+    * help documentation and links on pages added. - Deepika
+
+SLCMS  Version 1.0 2017-05-31
+-----------------------------
+    * Student menu updated. - NKS
+    * Data structure updated. - NKS
+    * Program fee  master functionality added. - Vijay
+
+SLCMS  Version 1.0 2017-05-30
+-----------------------------
+    * created new data structure for student admission and modified some of the tables.- NKS
+
+SLCMS  Version 1.0 2017-05-26
+-----------------------------
+    * Admin menu list updated. New table added for admission merit list.- NKS
+
+SLCMS  Version 1.0 2017-05-23
+-----------------------------
+    * Teacher list upload mechanism updated - NKS, Manorama
+
+SLCMS  Version 1.0 2017-05-22
+-----------------------------
+    * Mail setting module updated - Manorama
+
+SLCMS  Version 1.0 2017-05-19
+-----------------------------
+    * Department modeule modified and updated - Raju
+    
+
+SLCMS  Version 1.0 2017-05-18
+-----------------------------
+    * Added table teacher subject programe and paper table - NKS
+    * Added upload teacher list  _NKS
+    * Added function for check positive integer common model - NKS
+    * Modified menu  - NKS
+    * Added change password facility - Deepika
+
+SLCMS  Version 1.0 2017-05-17
+-----------------------------
+    * Added mapping module for campus, programe and seats - Manorama
+
+SLCMS  Version 1.0 2017-05-16
+-----------------------------
+    * Added subject management related module - Sharad
+
+SLCMS  Version 1.0 2017-05-15
+-----------------------------
+    * Added mail send model for sending the mail to user with and without attachment.- NKS
+    * Modified table User role type -addes few more field  - NKS
+    * Added some function in common model - NKS
+    * Mofdified menu list- NKS
+    * Added role functionality - Kishore
+
+SLCMS  Version 1.0 2017-05-11
+-----------------------------
+    * functionality to add department - added. - Raju
+
+SLCMS  Version 1.0 2017-05-09
+-----------------------------
+    * functionality to add categories, added. - Om Prakash
+
+SLCMS  Version 1.0 2017-05-08
+-----------------------------
+    * add logs table in database, modified logger lib for write log in db - NKS
+
+SLCMS  Version 1.0 2017-05-07
+-----------------------------
+    * add logs table in database, modified logger lib for write log in db - NKS
+
+SLCMS  Version 1.0 2017-05-06
+-----------------------------
+    * Modified table subject_paper -addes few more field (type -UG,PG,R,Dip, paper number, degree, acad year, insert and modified date) -NKS
+    * Added Common model for select and delete - NKS
+    * Mofdified menu list - added subject link in setup -NKS
+
+SLCMS  Version 1.0 2017-05-01
+-----------------------------
+    * modification in table SC_program_sheet, extra unique keys in subject table removed, model updated for efficiency. - NKS
+    * CSS stylesheet added as common formating code across the whole codebase -Manorama
+    * program addtion and editing mechanism added. -Sharad
+
+SLCMS  Version 1.0 2017-04-27
+-----------------------------
+    * Added default values in login schema  for admin and guest- NKS
+    * Changed in program table - one field seat added - NKS
+    * Mofdified menu list - NKS
+    * Added logger lib - NKS
+    * Added email setting module - Manorama
+
+SLCMS  Version 1.0 2017-04-24
+-----------------------------
+    * Modified table country and puted default value for India - NKS
+    * Added University Model - NKS
+    * Added University information to dashboard    - NKS
+
+SLCMS  Version 1.0 2017-04-21
+-----------------------------
+    * Added 5 table (city, state, country, student program and  student fees) create statement -NKS
+    * Added auto increment in  three table (designation,category and email setting) statement - NKS
+    * Changed in login page - NKS
+    * Changed in header clour -NKS
+    * Added two submenu (category and designation) in setup menu - NKS
+
+SLCMS  Version 1.0 2017-04-19
+------------------------------
+    * Start Apache License, Version 2.0
+    * Added 7 tables create statements
+    * Added menu and submenu
+    
