@@ -220,8 +220,8 @@
                     </select> 
                     
                 </td>
-                </tr>
-                <tr style="font-weight:bold;">
+            </tr>
+            <tr style="font-weight:bold;">
                 <td> Select Designation<br>
                     <select name="desig" id="desig" style="width:400px;"> 
                       <option  value="" disabled selected>-------- Select Designation ------</option>  
@@ -249,8 +249,7 @@
                     <th>Doj / Dor</th>
                     <th>Designation</th>
                     <th>E-Mail ID</th>
-                    
-                    
+                 
                 </tr>
             </thead>
             <tbody>
@@ -312,6 +311,7 @@
 		</td><td>	
                         <button name="update" id="retire" onClick="return verifyreason()">Update</button>
                     </td>
+                    <?php // echo $selempid; ?> 
                     <input type="hidden" name="selempid" value="<?php echo  $selempid ; ?>">          
                 </tr>
                     <?php }; ?>
@@ -342,6 +342,7 @@
                     <th>Doj / Dor</th>
                     <!--<th>E-Mail ID</th> -->
                     <th>Reason</th>
+                    <th>Action</th>
                     
                     
                 </tr>
@@ -391,6 +392,9 @@
                                     
                             echo $record->sre_reason."<br/>"."Date : "."<font color=red>".date('d-m-Y H:i:s',strtotime($record->sre_reasondate))."</font>";
                             ?></td>
+                            <td>
+                            <?php echo anchor("rejoinemp/Emprejoin/".$record->sre_empid,"Rejoin",array('title' => 'Rejoin Employee' , 'class' => 'red-link'));  ;?>
+                            </td>
                         </tr>
                     <?php }; ?>
                 <?php else : ?>

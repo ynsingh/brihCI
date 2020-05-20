@@ -1525,6 +1525,7 @@ CREATE TABLE `staff_retirement` (
   `sre_dor` datetime NOT NULL,
   `sre_reason` varchar(255) NOT NULL,
   `sre_reasondate` datetime NOT NULL,
+  `sre_status` VARCHAR(250) NULL,
   `sre_remark` blob NULL,
   `sre_creatorid` varchar(255) NOT NULL,
   `sre_creatordate` DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -2096,3 +2097,23 @@ CREATE TABLE `staff_training_organised_archive` ( `stoa_id` INT(11) NOT NULL AUT
 CREATE TABLE `staff_perform_project_data_archive` ( `sppda_id` INT(11) NOT NULL AUTO_INCREMENT ,`sppda_sppdid` INT(11) NOT NULL , `sppda_empid` INT(11) NOT NULL , `sppda_ptitle` VARCHAR(255) NOT NULL , `sppda_prole` VARCHAR(255) NOT NULL , `sppda_pfundagency` VARCHAR(255) NOT NULL , `sppda_agendytype` VARCHAR(255) NOT NULL , `sppda_budget` FLOAT(10,2) NOT NULL , `sppda_duration` INT(3) NOT NULL , `sppda_fromdate` DATE NOT NULL , `sppda_todate` DATE NOT NULL , `sppda_remark` VARCHAR(255) NOT NULL , `sppda_creatorname` VARCHAR(255) NOT NULL , `sppda_creationdate`  TIMESTAMP NOT NULL , PRIMARY KEY (`sppda_id`)) ENGINE = InnoDB;
 
 CREATE TABLE `staff_perform_award_data_archive` ( `spada_id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT , `spada_spadid` INT(11) NOT NULL ,`spada_empid` INT(11) NOT NULL , `spada_awardtitle` VARCHAR(255) NOT NULL , `spada_awardtype` VARCHAR(255) NOT NULL , `spada_year` INT(4) NOT NULL , `spada_awardby` VARCHAR(255) NOT NULL , `spada_details` VARCHAR(255) NOT NULL , `spada_creatorname` VARCHAR(255) NOT NULL , `spada_creationdate` TIMESTAMP NOT NULL ) ENGINE = InnoDB;
+
+--
+-- Table structure for table `employee_rejoin`
+--
+
+CREATE TABLE `employee_rejoin` (
+  `emprj_id` int(11) PRIMARY KEY AUTO_INCREMENT,
+  `emprj_empid` int(11)  NOT NULL,
+  `emprj_doj` datetime NOT NULL,
+  `emprj_leavedatefrom` datetime NOT NULL,
+  `emprj_leavedateto` datetime NOT NULL,
+  `emprj_reason` varchar(255) Default NULL,
+  `emprj_rejoinreason` varchar(255) Default NULL,
+  `emprj_remark` varchar(255) Default NULL,
+  `emprj_creatorid` varchar(255) NOT NULL,
+  `emprj_creatordate` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `emprj_modifierid` varchar(255) NOT NULL,
+  `emprj_modifydate` DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
