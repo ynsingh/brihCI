@@ -926,8 +926,8 @@ class Staffmgmt extends CI_Controller
     }
     /****************************  START OPEN EDIT FORM WITH DATA *************/
     function editempprofile($id){
-	 $emdupl= $this->sismodel->isduplicate('employee_master','emp_id',$id);
-         if($emdupl){
+	$emdupl= $this->sismodel->isduplicate('employee_master','emp_id',$id);
+        if($emdupl){
         $this->roleid=$this->session->userdata('id_role');
         /*get detail of selected emplyee by passing id for edit*/
         $this->subject= $this->commodel->get_listspfic2('subject','sub_id','sub_name');
@@ -961,6 +961,10 @@ class Staffmgmt extends CI_Controller
   //      $whdata = array ('aa_empid' => $id);
     //    $whorder = 'aa_asigperiodfrom desc';
       //  $editemp_data['editasign'] = $this->sismodel->get_orderlistspficemore('additional_assignments',$selectfield,$whdata,$whorder);
+        
+        /*********************for emp rejoin case ***********************/
+        $editemp_data['emprjcase'] ='';
+        /*********************************************/
         $this->load->view('staffmgmt/editempprofile',$editemp_data);     
         }
 	else{
@@ -984,7 +988,7 @@ class Staffmgmt extends CI_Controller
             $this->form_validation->set_rules('empcode','EmployeeCode','trim|required|xss_clean|alpha_numeric');
             $this->form_validation->set_rules('empname','EmployeeName','trim|required|xss_clean');
             $this->form_validation->set_rules('specialisation','Specialisation','trim|xss_clean');
-		 $this->form_validation->set_rules('splsubo','Specialisation Other','trim|xss_clean');
+            $this->form_validation->set_rules('splsubo','Specialisation Other','trim|xss_clean');
 // enabled by nks
             $this->form_validation->set_rules('campus','Campus','trim|required|xss_clean');
             $this->form_validation->set_rules('uocontrol','UniversityOfficerControl','trim|required|xss_clean');
@@ -1095,6 +1099,13 @@ class Staffmgmt extends CI_Controller
             $this->form_validation->set_rules('ppwpref3','Preferred Place of Working - Third ','trim|xss_clean');
             $this->form_validation->set_rules('elpost','Entry level Post','trim|xss_clean');
             $this->form_validation->set_rules('elps','Entry level Pay Scale','trim|xss_clean');
+            
+            /******************* fields added for rejoin employee case****************************/
+            $this->form_validation->set_rules('reason','Reason','trim|xss_clean'); 
+            $this->form_validation->set_rules('joinreason','joining Reason','trim|xss_clean');
+            $this->form_validation->set_rules('rjremarks','Remarks','trim|xss_clean');
+             
+            /*************************************************************************************/
 
 
             if($this->form_validation->run() == FALSE){
@@ -1262,8 +1273,8 @@ class Staffmgmt extends CI_Controller
                 'emp_seniortyid'            	 =>$_POST['seniorityno'],
                 'emp_spousename'            	 =>$_POST['spousename'],
                 'emp_jsession'            	 =>$this->input->post('jsession'),
-		'emp_entrylevelpost'        => $this->input->post('elpost'),
-                'emp_entrylevelpayscle'     => $this->input->post('elps'),
+		'emp_entrylevelpost'            => $this->input->post('elpost'),
+                'emp_entrylevelpayscle'         => $this->input->post('elps'),
 
             );
 //print_r($data);
@@ -1423,12 +1434,87 @@ class Staffmgmt extends CI_Controller
            // $this->sismodel->insertsdetail($id,$_POST['campus'],$_POST['uocontrol'],$_POST['department'],$desigcode,$_POST['schemecode'],$_POST['ddo'],$_POST['group'],$_POST['payband'],'',$_POST['emppost'],'','','',$this->input->post('orderno'));
 
             if(!$upempdata_flag){
+                
+                /**********************emp rj delete record case updation failure ******************/
+                $emprjcase=$this->input->post('emprjoin');
+                if($emprjcase =='rejoincase'){
+                    $wdatasd=array('empsd_empid' =>$id);
+                    $msdetl=$this->sismodel->get_maxvalue('employee_servicedetail','empsd_id',$wdatasd);
+                    $maxidsevtbl='';
+                    if(!empty($msdetl)){
+                        foreach($msdetl as $maxsdetl){
+                            $maxidsevtbl=$maxsdetl->empsd_id;
+                        }
+                    }    
+                    $empservdetl=$this->sismodel->deleterow('employee_servicedetail','empsd_id',$maxidsevtbl);
+                
+                    $wdatarj=array('emprj_empid' =>$id);
+                    $mrjetl=$this->sismodel->get_maxvalue('employee_rejoin','emprj_id',$wdatarj);
+                    $maxidrjtbl='';
+                    if(!empty($mrjetl)){
+                        foreach($mrjetl as $maxrjdetl){
+                            $maxidrjtbl=$maxrjdetl->emprj_id;
+                        }
+                    }    
+                
+                    $emprjdetl=$this->sismodel->deleterow('employee_rejoin','emprj_id',$maxidrjtbl);
+                }
+                
+                /***************************emp rj closer*************************************/
+                
                 $this->logger->write_logmessage("error","Error in update staff profile ", "Error in staff profile record update" );
                 $this->logger->write_dblogmessage("error","Error in update staff profile", "Error in staff profile record update");
                 $this->session->set_flashdata('err_message','Error in updating staff profile - ', 'error');
                 $this->load->view('staffmgmt/editempprofile', $data);
             }
             else{
+                
+                /***********************emp rj update record***************************/
+                
+                $emprjcase=$this->input->post('emprjoin');
+                
+                if($emprjcase =='rejoincase'){ 
+                    
+                    $wdatarj=array('emprj_empid' =>$id);
+                    $mrjetl=$this->sismodel->get_maxvalue('employee_rejoin','emprj_id',$wdatarj);
+                    $maxidrjtbl='';
+                    if(!empty($mrjetl)){
+                        foreach($mrjetl as $maxrjdetl){
+                            $maxidrjtbl=$maxrjdetl->emprj_id;
+                        }
+                    }
+                
+                
+                    $reason=$this->input->post('reason');
+                    $joinreason=$this->input->post('joinreason');
+                    $rjremarks=$this->input->post('rjremarks');
+                
+                    $emprjdata = array(
+                    
+                        'emprj_reason'          =>$reason,
+                        'emprj_rejoinreason'    =>$joinreason,
+                        'emprj_remark'          =>$rjremarks,
+                    );
+                
+                    $upempdata_flag=$this->sismodel->updaterec('employee_rejoin',$emprjdata,'emprj_empid',$id);
+                    //$upempdata_flag=$this->sismodel->updaterec('employee_rejoin',$emprjdata,'emprj_id',$maxidrjtbl);
+                    $sredata = array(
+                    
+                        'sre_status'          =>"rejoin",
+                    );
+                
+                    $upempdata_flag=$this->sismodel->updaterec('staff_retirement',$sredata,'sre_empid',$id);
+                    
+                    $dataemp = array(
+                        'emp_leaving'  =>NULL   
+                    );
+            
+                    $upempdata_flag=$this->sismodel->updaterec('employee_master', $dataemp,'emp_id',$id);
+                    
+                }    
+                
+                /***************************************************************************************/
+                
                 $this->roleid=$this->session->userdata('id_role');
                 $this->logger->write_logmessage("update","update staff profile ", " Employee record updated successfully ");
                 $this->logger->write_dblogmessage("update","staff profile", "Employee record updated successfully");
@@ -2900,10 +2986,10 @@ class Staffmgmt extends CI_Controller
             $dupdetail=array(
                'sre_empid' => $selempid, 
                'sre_empcode' => $empcode,
-               'sre_empemailid' => $empemail,
+               'sre_empemailid' =>$empemail,
+               'sre_status'     =>NULL
             );
             $dupdata = $this->sismodel->isduplicatemore('staff_retirement', $dupdetail);
-
             if($dupdata == 1 ){
                 $this->session->set_flashdata("err_message", "Record is already exist . 'Employee PF No' = $empcode  , ' Email'= $empemail .");
                 redirect('staffmgmt/staffretirement');
@@ -2958,7 +3044,7 @@ class Staffmgmt extends CI_Controller
             }
         }//if update button
         $fields="sre_empid,sre_empcode,sre_empemailid,sre_doj,sre_dor,sre_reason,sre_reasondate";  
-	$whdata = array('sre_reason !='=>'superannuation');
+	$whdata = array('sre_reason !='=>'superannuation','sre_status'=>NULL);
         $data['records'] = $this->sismodel->get_orderlistspficemore('staff_retirement',$fields,$whdata,'sre_reasondate asc');
         $this->logger->write_logmessage("view"," view staff retirement list" );
         $this->logger->write_dblogmessage("view"," view staff retirement list");

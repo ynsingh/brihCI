@@ -1676,8 +1676,23 @@ re-engineering in edit profile according to tanuvas structure - 16 OCT 2017
                     <img src="<?php echo base_url('uploads/SIS/empphoto/'."empdemopic.png");?>"  id="output_image" v:shapes="_x0000_i1025" width="78" height="94"/>
                 <?php endif?>   
                  </div></td>    
-            </tr>    
+            </tr> 
+            <?php if($emprjcase =='rejoincase'):;?>
+            <tr>
+                <td><label for="rjreason" style="font-size:15px;"><font color='Blue'>Reason</font></label>
+                    <div><textarea name="reason" rows="3" cols="40"  ></textarea>
+                </div></td>
                 
+                 <td><label for="rjjoin reason" style="font-size:15px;"><font color='Blue'>Join reason</font></label>
+                    <div><textarea name="joinreason" rows="3" cols="40" ></textarea>
+                </div></td>
+                
+                 <td colspan="3"><label for="rjremarks" style="font-size:15px;"><font color='Blue'>Rejoin Remarks</font></label>
+                    <div><textarea name="rjremarks" rows="3" cols="40"  ></textarea>
+                </div></td>
+            </tr>
+            <input type="hidden" name="emprjoin" value="<?php echo $emprjcase;?>">
+            <?php endif ?>    
             </tr>
             <tr>
             <td colspan="8" style="background-color:#2a8fcf;">   
