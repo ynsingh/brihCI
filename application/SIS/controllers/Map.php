@@ -2245,6 +2245,7 @@ public function schemedept(){
 		    $datauo = array(
                         'ul_userid'=> $userid,
                         'ul_empcode'=> $pfno,
+                        'ul_scid'=> $_POsT['campus'],
 			'ul_authuoid'=>$_POST['uo'],                        
                         'ul_datefrom'=> $_POST['DateFrom'],
                         'ul_dateto'=> $dateto,
@@ -2365,6 +2366,8 @@ public function uolist(){
 			}
 		}
                 $logmessage = "";
+                if($data['uodata']->ul_scid != $campus)
+                    $logmessage = "Edit UO user campus  " .$data['uodata']->ul_scid . " changed by " .$campus;
                 if($data['uodata']->ul_empcode != $pfno)
                     $logmessage = "Edit UO user " .$data['uodata']->ul_empcode . " changed by " .$pfno;
                 if($data['uodata']->ul_datefrom != $datefrom)
@@ -2388,6 +2391,7 @@ public function uolist(){
                 $datauo = array(
                     'ul_empcode'=> $pfno,
                     'ul_authuoid'=> $uoid,
+                    'ul_scid'=> $campus,
                     'ul_datefrom'=> $datefrom,
                     'ul_dateto'=> $dateto,
                     'ul_status'=> $status,

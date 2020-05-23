@@ -2177,8 +2177,12 @@ class Setup3redesign extends CI_Controller
    // public function getformulaval($shid,$empid,$pbid,$wtype){
     public function getformulaval($shid,$empid){
         $formula1=$this->sismodel->get_listspfic1('salary_formula','sf_formula','sf_salhead_id',$shid);
+	$emppfno=$this->sismodel->get_listspfic1('employee_master','emp_code','emp_id',$empid)->emp_code;
         if(!empty($formula1)){
             $formula=$formula1->sf_formula;
+		if(is_numeric($formula)){
+			$this->finalval=$formula;
+		}else{
             preg_match('/(.*)\((.*?)\)(.*)/', $formula, $match);
             //echo "in parenthesis inside: " . $match[2];
             //echo "before and after inside: " . $match[1] . $match[3] . "\n";
@@ -2296,6 +2300,9 @@ class Setup3redesign extends CI_Controller
                         $this->finalval=$this->finalval;
                     }
                 }
+		if(substr($emppfno, 0, 1) == "C"){
+			$this->finalval=0;
+		}
                                                                 
             }//upfsubcription closer
             elseif($upfsubcode == 'CPS'){
@@ -2314,13 +2321,16 @@ class Setup3redesign extends CI_Controller
                     }
                 }
                                     
+		if(substr($emppfno, 0, 1) == "V"){
+			$this->finalval=0;
+		}
             }//cpssubcription closer
             else{
                 $this->finalval=$rawfor * $strfmla2[1];    
             }
             
             
-            
+            }//close not numeric
            // echo "in formula method==="."---headval1===". $headval1."headval2==".$headval2."finalval===".$this->finalval."shid==".$shid."empid===".$empid;
         }//emptyformulacheck  
         
@@ -4155,8 +4165,10 @@ class Setup3redesign extends CI_Controller
                 $rentrper=$headvalh[0]->rr_percentage;
                 $rawrrcal=$bpamt*$rentrper;
                 $headvalhra=$rawrrcal;
+		//get the hra and add to rent recovery
+		$hraforrent=$this->cal_HRAgrade($empid);
                 //get cca grade from payrollprofile
-                $this->dheadval=$headvalhra; 
+                $this->dheadval=$headvalhra+$hraforrent; 
             }
             else{
                 $this->dheadval=0;  

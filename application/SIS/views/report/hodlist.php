@@ -32,7 +32,7 @@
          <table width="100%" border="0">
             <tr style="font-weight:bold;width:100%;">
                 <td>   University Officer
-                    <select name="uoff" id="uoff" style="width:600px;">
+                    <select name="uoff" id="uoff" style="width:300px;">
                         <?php if  ((!empty($uolt))&&($uolt != 'All')){ ?>
                         <option value="<?php echo $uolt; ?>" > <?php echo $this->lgnmodel->get_listspfic1('authorities', 'name', 'priority',$uolt)->name ." ( ". $this->lgnmodel->get_listspfic1('authorities', 'code', 'priority',$uolt)->code ." )"; ?></option>
                         <?php  } ?>
@@ -43,13 +43,25 @@
                         <?php endforeach; ?>
                     </select>
                 </td>
+		<td> Year
+		<select name="lyear" id="lyear" style="width:130px;">
+                        <?php if  ((!empty($lyear))&&($lyear != 'All')){ ?>
+                        <option value="<?php echo $lyear; ?>" > <?php echo $lyear; ?></option>
+                        <?php  } ?>
+                      <option value=""  >- Select Year -</option>
+                      <option value="" >All</option>
+                        <?php foreach($ayear as $ydata): ?>
+                                <option class="test" value="<?php echo $ydata->hldf; ?>"><?php echo $ydata->hldf ; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+
                 <td valign="center">
                     <input type="submit" name="filter" id="crits" value="Search"  />
                 </td>
             </tr>
         </table>
 </form>
-          
         
     <table width="100%">
        <tr style=" background-color: graytext;">

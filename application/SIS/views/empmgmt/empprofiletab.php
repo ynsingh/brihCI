@@ -120,11 +120,11 @@
 		</tr>
 <!--
                 <tr>
-			<?php if($current == 'leave') { ?>
+			<?php //if($current == 'leave') { ?>
 				<td class=btn active>
-			<?php }else{ ?>
+			<?php //}else{ ?>
 				<td class=btn1>
-			<?php } ?>
+			<?php //} ?>
 			<b>  <a href='<?php //echo site_url()."/empmgmt/leave_profile"?>' style="font-size:17px;color:#0099CC;text-decoration: none">Leave Particulars</a></b> </td>
 		</tr>
 -->
@@ -144,14 +144,16 @@
 			<?php } ?>
 			<b>  <a href='<?php echo site_url()."/empmgmt/deptexam_profile"?>' style="font-size:17px;color:#0099CC;text-decoration: none">Departmental Exam Passed Details</a></b> </td>
 		</tr>
+<!--
                 <tr>
-			<?php if($current == 'workorder') { ?>
+			<?php //if($current == 'workorder') { ?>
 				<td class=btn active>
-			<?php }else{ ?>
+			<?php //}else{ ?>
 				<td class=btn1>
-			<?php } ?>
-			<b>  <a href='<?php echo site_url()."/empmgmt/workorder_profile"?>' style="font-size:17px;color:#0099CC;text-decoration: none">Working Arrangement Particulars</a></b> </td>
+			<?php //} ?>
+			<b>  <a href='<?php //echo site_url()."/empmgmt/workorder_profile"?>' style="font-size:17px;color:#0099CC;text-decoration: none">Working Arrangement Particulars</a></b> </td>
 		</tr>
+-->
                 <tr>
 			<?php if($current == 'recruit') { ?>
 				<td class=btn active>

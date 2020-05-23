@@ -103,7 +103,7 @@
                 </tr>
 
 	<tr>
-                <td>Awarded By<font color='Red'></font></td>
+                <td>Awarded Body<font color='Red'></font></td>
                 <td><select name="awardedby" style="width:350px;" id="dsubgrpid" >
 		<?php if(!empty($empawarddata->spad_awardby)):;?>
                             <option value="<?php echo $empawarddata->spad_awardby;?>"><?php echo $empawarddata->spad_awardby;?></option>

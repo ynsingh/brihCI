@@ -116,12 +116,13 @@ If you make any change in this file then you must change same file in report dir
 			<b>  <a href='<?php echo site_url()."/report/deptexam_profile/".$emp_id?>' style="font-size:13px;color:white;text-decoration: none;size:35;">Departmental Exam Passed Details</a></b> </td>
 		<!--</tr>
                 <tr> -->
-                        <?php if($current == 'workorder') { ?>
+             <!--           <?php //if($current == 'workorder') { ?>
                 <td class=btn active>
-			<?php }else{ ?>
+			<?php //}else{ ?>
 				<td class=btn1>
-			<?php } ?>
-			<b>  <a href='<?php echo site_url()."/report/workorder_profile/".$emp_id?>' style="font-size:13px;color:white;text-decoration: none;size:60;">Working Arrangement Particulars</a></b> </td>
+			<?php //} ?>
+			<b>  <a href='<?php //echo site_url()."/report/workorder_profile/".$emp_id?>' style="font-size:13px;color:white;text-decoration: none;size:60;">Working Arrangement Particulars</a></b> </td>
+ -->
 		<!--</tr>
                 <tr> -->
 

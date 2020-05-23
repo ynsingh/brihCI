@@ -153,7 +153,9 @@ class Jslist extends CI_Controller
                 $combid= $this->input->post('wpc');
                 $parts = explode(',',$combid);
                 $datawh=array();
-		if($parts[1] == '6th'){
+		if($parts[1] == '5th'){
+			$datawh['sgm_pc'] = "5th";
+		}elseif($parts[1] == '6th'){
 			$datawh['sgm_pc'] = "6th";
 		}else{
 			$datawh['sgm_pc'] = "7th";
@@ -177,7 +179,9 @@ class Jslist extends CI_Controller
 //                print_r($parts); die();
                 $datawh=array();
 		$datawh['sgm_wt']=$parts[0];	
-                if($parts[1] == '6th'){
+		if($parts[1] == '5th'){
+			$datawh['sgm_pc'] = "5th";
+                }elseif($parts[1] == '6th'){
                         $datawh['sgm_pc'] = "6th";
                 }else{
                         $datawh['sgm_pc'] = "7th";
@@ -252,7 +256,7 @@ class Jslist extends CI_Controller
 	public function getrentpayrange(){
                 $pcom = $this->input->post('pcom');
 
-                if($pcom == '6th'){
+                if(($pcom == '6th')||($pcom == '5th')){
                         $gpr_select_box ='';
                         $gpr_select_box.='<option value=>-------Select Pay Range--------';
                         $gpr_select_box.='<option value=6000-10199>6000-10199';
@@ -272,7 +276,7 @@ class Jslist extends CI_Controller
 	 public function getccapayrange(){
                 $pcom = $this->input->post('pcom');
 
-                if($pcom == '6th'){
+                if(($pcom == '6th')||($pcom == '5th')){
                         $gpr_select_box ='';
                         $gpr_select_box.='<option value=>-------Select Pay Range--------';
                         $gpr_select_box.='<option value=0-8000>0-8000';
@@ -295,7 +299,7 @@ class Jslist extends CI_Controller
 	public function getpayrange(){
 		$pcom = $this->input->post('pcom');
 		
-		if($pcom == '6th'){
+		if(($pcom == '6th')||($pcom == '5th')){
 			$gpr_select_box ='';
                         $gpr_select_box.='<option value=>-------Select Pay Range--------';
 			$gpr_select_box.='<option value=0-5299>0-5299';
@@ -344,7 +348,7 @@ class Jslist extends CI_Controller
                 $wtype = $this->input->post('pcwt');
                 $parts = explode(',',$wtype);
        // echo json_encode("this is testing----".$wtype);
-                if(($parts[0] == 'Teaching')&&($parts[1] == '6th')){
+                if(($parts[0] == 'Teaching')&&(($parts[1] == '6th')||($parts[1] == '5th'))){
                     $datawh=array('sgm_wt' => $parts[0],'sgm_pc' => $parts[1]);
                     $psdata = $this->sismodel->get_listspficemore('salary_grade_master','sgm_id,sgm_name,sgm_level',$datawh);
                     $pb_select_box ='';
@@ -366,7 +370,7 @@ class Jslist extends CI_Controller
                         
                     }
                 }
-                elseif(($parts[0] == 'Non Teaching')&&($parts[1] == '6th')){
+                elseif(($parts[0] == 'Non Teaching')&&(($parts[1] == '6th')||($parts[1] == '5th'))){
                     
                     $datawh=array('sgm_wt' => $parts[0],'sgm_pc' => $parts[1]);
                     $psdatant = $this->sismodel->get_listspficemore('salary_grade_master','sgm_id,sgm_name,sgm_max,sgm_min,sgm_gradepay,sgm_level',$datawh);
@@ -434,7 +438,7 @@ class Jslist extends CI_Controller
                 $wtype = $this->input->post('pcwt');
                 $parts = explode(',',$wtype);
        // echo json_encode("this is testing----".$wtype);
-                if(($parts[0] == 'Teaching')&&($parts[1] == '6th')){
+                if(($parts[0] == 'Teaching')&&(($parts[1] == '6th')||($parts[1] == '5th'))){
                    // $datawh=array('sgm_wt' => $parts[0],'sgm_pc' => $parts[1]);
                   //  $psdata = $this->sismodel->get_listspficemore('salary_grade_master','sgm_id,sgm_name,sgm_level',$datawh);
                     $pb_select_box ='';
@@ -455,7 +459,7 @@ class Jslist extends CI_Controller
                         
                   //  }
                 }
-                elseif(($parts[0] == 'Non Teaching')&&($parts[1] == '6th')){
+                elseif(($parts[0] == 'Non Teaching')&&(($parts[1] == '6th')||($parts[1] == '5th'))){
                     
                   //  $datawh=array('sgm_wt' => $parts[0],'sgm_pc' => $parts[1]);
                     //$psdatant = $this->sismodel->get_listspficemore('salary_grade_master','sgm_id,sgm_name,sgm_max,sgm_min,sgm_gradepay,sgm_level',$datawh);
