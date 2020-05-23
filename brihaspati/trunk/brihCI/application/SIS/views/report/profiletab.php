@@ -136,14 +136,15 @@
 			<?php } ?>
 			<b>  <a href='<?php echo site_url()."/report/deptexam_profile/".$emp_id?>' style="font-size:17px;color:#0099CC;text-decoration: none">Departmental Exam Passed Details</a></b> </td>
 		</tr>
-                <tr>
-			<?php if($current == 'workorder') { ?>
+          <!--      <tr>
+			<?php //if($current == 'workorder') { ?>
 				<td class=btn active>
-			<?php }else{ ?>
+			<?php //}else{ ?>
 				<td class=btn1>
-			<?php } ?>
-			<b>  <a href='<?php echo site_url()."/report/workorder_profile/".$emp_id?>' style="font-size:17px;color:#0099CC;text-decoration: none">Working Arrangement Particulars</a></b> </td>
+			<?php //} ?>
+			<b>  <a href='<?php //echo site_url()."/report/workorder_profile/".$emp_id?>' style="font-size:17px;color:#0099CC;text-decoration: none">Working Arrangement Particulars</a></b> </td>
 		</tr>
+-->
                 <tr>
 			<?php if($current == 'recruit') { ?>
 				<td class=btn active>

@@ -1173,16 +1173,30 @@ public function disciplinewiselist(){
     public function hodlist(){
 	// get list of uo form authority table priority wise
 	$data['uoc']=$this->lgnmodel->get_orderlistspficemore('authorities','priority,name,code','','name ASC');
+	//get yesr list exist in database
+	$data['ayear']=$this->sismodel->get_orderdistinctrecord('hod_list','YEAR(hl_datefrom) as hldf','','YEAR(hl_datefrom) ASC');
         $today= date("Y-m-d H:i:s"); 
-	$whdata=array('hl_status'=>'Fulltime','hl_dateto'=> '1000-01-01 00:00:00');
+//		$whdata=array('hl_status'=>'Fulltime','hl_dateto'=> '1000-01-01 00:00:00');
+	$whdata=array();
 //        $whdata=array('hl_dateto >='=> $today);
 	$data['uolt']=''; 
         if(isset($_POST['filter'])) {
-            $uoff  = $this->input->post('uoff');
+            	$uoff  = $this->input->post('uoff',true);
 		if(!empty($uoff)){
 			$whdata['hl_uopid']=$uoff;
 			$data['uolt'] = $uoff;
 		}
+            	$lyear  = $this->input->post('lyear',true);
+		if(!empty($lyear)){
+			$whdata['(select YEAR(hl_datefrom))=']=$lyear;
+			$whdata['(select YEAR(hl_dateto)) <=']=$lyear;
+			$data['lyear']=$lyear;
+		}
+		if((empty($uoff)) && (empty($lyear))){
+			$whdata=array('hl_status'=>'Fulltime','hl_dateto'=> '1000-01-01 00:00:00');
+		}	
+	}else{
+		$whdata=array('hl_status'=>'Fulltime','hl_dateto'=> '1000-01-01 00:00:00');
 	}
         $selectfield ="hl_userid,hl_empcode,hl_deptid,hl_scid,hl_uopid";
 	$whorder = "hl_uopid asc";
@@ -1193,13 +1207,36 @@ public function disciplinewiselist(){
     }
 
 	public function uolist(){
-        $today= date("Y-m-d H:i:s");
+		$orgcode=$this->commodel->get_listspfic1('org_profile','org_code','org_id',1)->org_code;
+        	$data['campusl']=$this->commodel->get_listspfic2('study_center','sc_id','sc_name','org_code',$orgcode);
+		$data['ayear']=$this->sismodel->get_orderdistinctrecord('uo_list','YEAR(ul_datefrom) as hldf','','YEAR(ul_datefrom) ASC');
+		$whdata=array();
+        	$today= date("Y-m-d H:i:s");
+		if(isset($_POST['filter'])) {
+            		$scid  = $this->input->post('campus',true);
+                	if(!empty($scid)){
+                        	$whdata['ul_scid']=$scid;
+                        	$data['scid'] = $scid;
+                	}
+            		$lyear  = $this->input->post('lyear',true);
+                	if(!empty($lyear)){
+                        	$whdata['(select YEAR(ul_datefrom))=']=$lyear;
+	                        $whdata['(select YEAR(ul_dateto)) <=']=$lyear;
+        	                $data['lyear']=$lyear;
+                	}
+	                if((empty($scid)) && (empty($lyear))){
+        	                $whdata=array('ul_status'=>'Fulltime','ul_dateto'=> '1000-01-01 00:00:00');
+                	}
+        	}else{
+                	$whdata=array('ul_status'=>'Fulltime','ul_dateto'=> '1000-01-01 00:00:00');
+        	}
+
 //        $whdata=array('hl_dateto >='=> $today);
         //$selectfield ="ul_userid,ul_empcode,ul_uocode,ul_uoname,ul_id,  ul_modifydate";
 	$selectfield ="ul_authuoid,ul_userid,ul_empcode, ul_uocode,ul_uoname,ul_id,  ul_modifydate";
 	$whorder="ul_id asc,ul_authuoid ASC,  ul_modifydate DESC";
 	//$whdata=array('ul_status'=>'Fulltime','ul_dateto >='=>$today);
-	$whdata=array('ul_status'=>'Fulltime','ul_dateto '=>'1000-01-01 00:00:00');
+//	$whdata=array('ul_status'=>'Fulltime','ul_dateto '=>'1000-01-01 00:00:00');
 //	$grpby="ul_authuoid";
 //	get_orderdistinctrecord($tbname,$selectfield,$whdata,$whorder)
         //$data['allsc']=$this->sismodel->get_distinctrecord('uo_list',$selectfield,'');

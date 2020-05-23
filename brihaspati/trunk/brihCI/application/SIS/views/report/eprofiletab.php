@@ -101,12 +101,13 @@ If you make any change in this file then you must change same file in report dir
 				<td class=btn1>
 			<?php } ?>
 			<b>  <a href='<?php echo site_url()."/report/deptexam_profile/".$emp_id?>' style="color:white;text-decoration: none">Departmental Exam Passed Details</a></b> </td>
-			<?php if($current == 'workorder') { ?>
+		<!--	<?php //if($current == 'workorder') { ?>
 				<td class=btn active>
-			<?php }else{ ?>
+			<?php //}else{ ?>
 				<td class=btn1>
-			<?php } ?>
-			<b>  <a href='<?php echo site_url()."/report/workorder_profile/".$emp_id?>' style="color:white;text-decoration: none">Working Arrangement Particulars</a></b> </td>
+			<?php //} ?>
+			<b>  <a href='<?php //echo site_url()."/report/workorder_profile/".$emp_id?>' style="color:white;text-decoration: none">Working Arrangement Particulars</a></b> </td>
+-->
 			<?php if($current == 'recruit') { ?>
 				<td class=btn active>
 			<?php }else{ ?>

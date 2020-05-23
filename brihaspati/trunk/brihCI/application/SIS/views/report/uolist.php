@@ -56,12 +56,45 @@
         };
         ?>
         </div>
-           
-           
-        
-
         </tr></table>
-          
+<form action="<?php echo site_url('report/uolist');?>" id="myForm" method="POST" class="form-inline">
+         <table width="100%" border="0">
+            <tr style="font-weight:bold;width:100%;">
+		<td> Select Campus: <font color='Red'></font>
+                        <select name="campus" id="camp" style="width:300px;" >
+			<?php if  ((!empty($scid))&&($scid != 'All')){ ?>
+                        <option value="<?php echo $scid; ?>" > <?php echo $this->commodel->get_listspfic1('study_center', 'sc_name', 'sc_id',$scid)->sc_name ." ( ". $this->commodel->get_listspfic1('study_center', 'sc_code', 'sc_id',$scid)->sc_code ." )"; ?></option>
+                        <?php  }else{ ?>
+                        <option selected="selected" disabled selected>------ Select Campus------</option>
+                        <?php  } ?>
+                        <?php foreach($campusl as $datas): ?>
+                        <option value="<?php echo $datas->sc_id; ?>"><?php echo $datas->sc_name; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </td>
+                <td> Year
+                <select name="lyear" id="lyear" style="width:130px;">
+                        <?php if  ((!empty($lyear))&&($lyear != 'All')){ ?>
+                        <option value="<?php echo $lyear; ?>" > <?php echo $lyear; ?></option>
+                        <?php  } ?>
+                      <option value=""  >- Select Year -</option>
+                      <option value="" >All</option>
+                        <?php foreach($ayear as $ydata): ?>
+                                <option class="test" value="<?php echo $ydata->hldf; ?>"><?php echo $ydata->hldf ; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+
+                <td valign="center">
+                    <input type="submit" name="filter" id="crits" value="Search"  />
+                </td>
+            </tr>
+        </table>
+</form>
+
+
+        
+  
         <div id="printme" align="left" style="width:100%;">
         <div class="scroller_sub_page">
             <table class="TFtable" >

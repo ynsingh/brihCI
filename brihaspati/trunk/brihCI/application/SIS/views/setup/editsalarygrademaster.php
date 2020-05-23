@@ -17,7 +17,7 @@
         
                  $('#paycomm').on('change',function(){
                         var pc= $('#paycomm').val();
-                        if(pc == '6th'){
+                        if((pc == '6th')||(pc == '5th')){
                                 $("#sgname").show();
                                 $("#sgpay").show();
                               //  $("#slevel").hide();
@@ -122,6 +122,7 @@
                 echo "<select name=\"paycomm\" id='paycomm' style=\"width:100%;\" onchange=\"payband(this.value)\">";
                 echo "<option value=".$sgm_pc[value].">".$sgm_pc[value]."</option>";
                 echo "<option value=\"\" disabled  >------Select ---------------</option>";
+                echo "<option value='6th'>5th</option>";
                 echo "<option value='6th'>6th</option>";
                 echo "<option value='7th'>7th</option>";
                 echo "</select>";

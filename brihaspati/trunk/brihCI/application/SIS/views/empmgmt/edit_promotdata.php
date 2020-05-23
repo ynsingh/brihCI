@@ -30,7 +30,7 @@
         
                  $('#paycomm').on('change',function(){
                         var pc= $('#paycomm').val();
-                        if(pc == '6th'){
+                        if((pc == '6th')||(pc == '5th')){
                                 $("#sgpay").show();
                                 $("#dagp").show();
                                 $("#slevel").hide();
@@ -245,6 +245,7 @@
 <?php                   }else{ ?>
                                 <option value="" disabled selected >------Select ---------------</option>
 <?php 			} ?>
+                                <option value="5th">5th</option>
                                 <option value="6th">6th</option>
                                 <option value="7th">7th</option>
                             </select>

@@ -99,7 +99,7 @@
                 </tr>
 
 	<tr>
-                <td>Awarded By<font color='Red'></font></td>
+                <td>Awarded Body<font color='Red'></font></td>
                 <td><select name="awardedby" style="width:350px;" id="dsubgrpid" >
 		<option selected="selected" disabled selected>------------ Awarded By---------</option>
                         <option value="College">College</option>
