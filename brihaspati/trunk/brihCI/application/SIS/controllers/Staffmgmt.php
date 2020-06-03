@@ -596,6 +596,15 @@ class Staffmgmt extends CI_Controller
 		$dateodassrex=$_POST['assrexamdate'];
 		$dateophd=$_POST['dateofphd'];
 
+//		$diff = abs(strtotime($date2) - strtotime($date1));
+//		$years = floor($diff / (365*60*60*24));
+
+		$older=$_POST['DateofBirth'];
+		$newer=$_POST['dateofretirement'];
+		$rety1 = $older->format('Y');
+		$rety2 = $newer->format('Y');
+		$rety = $rety2 - $rety1; 
+
                 $data = array(
                     'emp_code'                  =>$_POST['empcode'],
                    // 'emp_pfno'                =>$_POST['emppfno'],
@@ -683,6 +692,7 @@ class Staffmgmt extends CI_Controller
 		    'emp_jsession'		=>$_POST['jsession'],	    
                     'emp_entrylevelpost'	=> $entlpst,    
                     'emp_entrylevelpayscle' 	=> $_POST['elps'],    
+		    'emp_retage'		=> $rety,
                 );
 		if ((strpos($email, 'temp') === 0)||(strpos($email, $pfno) === 0)) {
                        	$passwd = $empcode;
@@ -1185,7 +1195,12 @@ class Staffmgmt extends CI_Controller
                 if(empty($splsubo)){
                         $splsubo='';
                 }
-
+		
+		$older=$this->input->post('DateofBirth');
+                $newer=$this->input->post('dateofretirement');
+                $rety1 = $older->format('Y');
+                $rety2 = $newer->format('Y');
+                $rety = $rety2 - $rety1;
                 //'emp_pnp'                        => $this->input->post('pnp'),
             $data = array(
 		'emp_code'			=> $this->input->post('empcode'),
@@ -1275,7 +1290,7 @@ class Staffmgmt extends CI_Controller
                 'emp_jsession'            	 =>$this->input->post('jsession'),
 		'emp_entrylevelpost'            => $this->input->post('elpost'),
                 'emp_entrylevelpayscle'         => $this->input->post('elps'),
-
+		'emp_retage'			=>$rety,
             );
 //print_r($data);
 		$msgphoto="";

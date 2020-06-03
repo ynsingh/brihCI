@@ -1364,6 +1364,98 @@ public function disciplin_profile() {
     }//function close
 
 
+    public function add_ottservicedata($empid) {
+        $this->roleid=$this->session->userdata('id_role');
+        $this->emp_id = $empid;
+       // $this->orgcode=$this->commodel->get_listspfic1('org_profile','org_code','org_id',1)->org_code;
+//	$whdata=array('org_code'=>$this->orgcode);
+  //      $this->campus=$this->commodel->get_orderlistspficemore('study_center','sc_id,sc_name,sc_code',$whdata,'sc_name asc');
+    //    $this->salgrd=$this->sismodel->get_list('salary_grade_master');
+ 
+
+        if(isset($_POST['addottservdata'])) {	
+            //form validation
+            $this->form_validation->set_rules('post','post','trim|required|xss_clean');
+	    $this->form_validation->set_rules('usono','USO No','trim|required|xss_clean');
+            $this->form_validation->set_rules('orderno','Establishment','trim|required|xss_clean');
+            $this->form_validation->set_rules('Datefrom','Date From','trim|xss_clean|required');
+            $this->form_validation->set_rules('Dateto','Date To','trim|required|xss_clean');
+
+            if($this->form_validation->run() == FALSE){
+                
+                redirect('empmgmt/add_ottservicedata/'.$empid);
+            }//formvalidation
+            else{
+		$date2=$this->input->post('Datefrom');
+		$date1=$this->input->post('Dateto');
+		$date3=date('Y-m-d');
+		$datefrom = strtotime($date1); 
+		$dateto = strtotime($date2); 
+		$datec=strtotime($date3);
+		if(($datefrom > $datec)||($dateto > $datec)){
+			$this->session->set_flashdata('err_message','Error in insert staff other than TANUVAS service record because you are choosing wrong date');
+			redirect('empmgmt/add_ottservicedata/'.$empid);
+			
+		}else{
+/*		$name='';
+                if(!empty($_FILES['userfile']['name'])){
+
+                    $newFileName = $_FILES['userfile']['name'];
+                    $fileExt1 = explode('.', $newFileName);
+                    $file_ext = end( $fileExt1);
+                    $name = $empid."_".$newFileName;
+                }
+*/
+		if(empty($_POST['tsession'])){
+			$ts='';
+		}else{
+			$ts=$_POST['tsession'];
+		}
+		
+                $data = array(
+                    'empottsd_empid'           =>$empid,
+                    'empottsd_post'      =>$_POST['post'],
+                    'empottsd_uso'           =>$_POST['usono'],
+                    'empottsd_estd'          =>$_POST['orderno'],
+                    'empottsd_datefrom'          =>$_POST['Datefrom'],
+		    'empottsd_fsession'	    =>$_POST['fsession'],
+		    'empottsd_dateto'         =>$_POST['Dateto'],
+		    'empottsd_tsession'	    =>$ts,
+                    'empottsd_creatorid'           =>$this->session->userdata('username'),
+                    'empottsd_creatordate'          =>date('Y-m-d'),
+		    'empottsd_modifierid'     =>$this->session->userdata('username'),
+		    
+                );
+                $servdataflag=$this->sismodel->insertrec('employee_ottsd', $data) ;
+                if(!$servdataflag)
+                {
+                    $this->logger->write_logmessage("error","Error in insert staff ottsd service record", "Error in insert staff other than tanuvas service record." );
+                    $this->logger->write_dblogmessage("error","Error in insert staff ottsd service record ", "Error in insert staff other than tanuvas service record" );
+                    $this->session->set_flashdata('err_message','Error in insert staff ottsd service record ');
+                    $this->load->view('empmgmt/add_ottservicedata',$data);
+                }
+                else{
+                    $this->roleid=$this->session->userdata('id_role');
+                    $empcode=$this->sismodel->get_listspfic1('employee_master','emp_code','emp_id',$empid)->emp_code;
+                    $empemail=$this->sismodel->get_listspfic1('employee_master','emp_email','emp_id',$empid)->emp_email;
+                    $this->logger->write_logmessage("insert","Add Staff ottsd Service Data", "Staff other than tanuvas Service record insert successfully." );
+                    $this->logger->write_dblogmessage("insert","Add Staff ottsd Service Data", "Staff other than tanuvas Service record insert successfully ." );
+                    $this->session->set_flashdata('success',' Other Than TANUVAS  Service Data record insert successfully.'."["." "."Employee PF NO:"." ".$empcode." and "."Username:"." ".$empemail." "."]");
+                    if($this->roleid == 4){
+                        redirect('empmgmt/viewempprofile');
+                    }
+                    else{
+                        redirect('report/service_profile/'.$empid);
+                    }
+                                       
+                }
+		}//date check with current date
+            }//else
+           
+        }//ifpost button
+        $this->load->view('empmgmt/add_ottservicedata');
+    }//function close
+
     /***********************************Start Add service detail******************************************/
     public function add_promotionaldata($empid) {
         $this->roleid=$this->session->userdata('id_role');
@@ -2614,6 +2706,106 @@ public function disciplin_profile() {
                     }
                     else{
 			$uid = $this->sismodel->get_listspfic1('employee_servicedetail','empsd_empid','empsd_id',$id)->empsd_empid;
+                        redirect('report/service_profile/'.$uid);
+                    }
+                                        
+                }
+                }//date check with current date
+            }//formtrue
+         
+        }   
+    }
+    
+    public function edit_ottservicedata($id) {
+        $this->roleid=$this->session->userdata('id_role');
+        $data['id'] = $id;
+        $data['ottservicedata'] = $this->sismodel->get_listrow('employee_ottsd','empottsd_id',$id)->row();
+        $this->load->view('empmgmt/edit_ottservicedata',$data);
+        
+    }
+    /****************************  START UPDATE DATA *************************/
+    public function update_ottservicedata($id){
+        $this->roleid=$this->session->userdata('id_role');
+        $sperf_dataquery=$this->sismodel->get_listrow('employee_ottsd','empottsd_id', $id);
+        $eds_data['ottservicedata'] = $sperf_dataquery->row();
+        if(isset($_POST['editottservdata'])) {
+            //form validation
+            $this->form_validation->set_rules('post','Post','trim|required|xss_clean');
+	    $this->form_validation->set_rules('usono','USO No','trim|xss_clean|required');
+	    $this->form_validation->set_rules('orderno','Establishment','trim|xss_clean|required');
+            $this->form_validation->set_rules('Datefrom','Date From','trim|xss_clean|required');
+            $this->form_validation->set_rules('Dateto','Date To','trim|xss_clean');
+
+            if($this->form_validation->run() == FALSE){
+                
+                redirect('empmgmt/edit_ottservicedata/'.$id);
+            }//formvalidation
+            else{
+		$date2=$this->input->post('Datefrom');
+                $date1=$this->input->post('Dateto');
+                $date3=date('Y-m-d');
+                $datefrom = strtotime($date1);
+                $dateto = strtotime($date2);
+                $datec=strtotime($date3);
+                if(($datefrom > $datec)||($dateto > $datec)){
+                        $this->session->set_flashdata('err_message','Error in update staff Other than TANUVAS service record because you are choosing wrong date');
+                        redirect('empmgmt/edit_ottservicedata/'.$id);
+
+                }else{
+
+                $post = $this->input->post('post', TRUE);
+		$uso=$this->input->post('usono', TRUE);
+                $estdno=$this->input->post('orderno', TRUE);
+                $datefrom = $this->input->post('Datefrom', TRUE);
+                $dateto = $this->input->post('Dateto', TRUE);
+
+                
+                $logmessage = "";
+                if($eds_data['ottservicedata']->empottsd_post != $post)
+                    $logmessage =$logmessage. "Edit Staff ott Service Data " .$eds_data['ottservicedata']->empottsd_post. " changed by " .$post;
+		if($eds_data['ottservicedata']->empottsd_uso != $uso)
+                    $logmessage =$logmessage. "Edit Staff ott Service Data " .$eds_data['ottservicedata']->empottsd_uso. " changed by " .$uso;
+		if($eds_data['ottservicedata']->empottsd_estd != $estdno)
+                    $logmessage =$logmessage. "Edit Staff ott Service Data " .$eds_data['ottservicedata']->empottsd_estd. " changed by " .$estdno;
+                if($eds_data['ottservicedata']->empottsd_datefrom != $datefrom)
+                        $logmessage = $logmessage."Edit Staff ott Service Data " .$eds_data['ottservicedata']->empottsd_datefrom. " changed by " .$datefrom;
+                if($eds_data['ottservicedata']->empottsd_dateto != $dateto)
+                        $logmessage = $logmessage."Edit Staff ott Service Data " .$eds_data['ottservicedata']->empottsd_dateto. " changed by " .$dateto;
+
+                $edit_data = array(
+                    'empottsd_post'      =>$post,
+		    'empottsd_estd'           =>$uestdno,
+                    'empottsd_uso'          =>$uso,
+                    'empottsd_datefrom'          =>$datefrom,
+		    'empottsd_fsession'	    =>$_POST['fsession'],
+		    'empottsd_dateto'         =>$dateto,
+		    'empottsd_tsession'	    =>$_POST['tsession'],
+                    'empottsd_modifierid'           =>$this->session->userdata('username'),
+                    'empottsd_modifierdate'          =>date('Y-m-d H:i:s'),
+                );
+
+                $empserviceflag=$this->sismodel->updaterec('employee_ottsd', $edit_data, 'empottsd_id', $id);
+                if(!$empserviceflag)
+                {
+                    $this->logger->write_logmessage("error","Error in update staff ott service record ", "Error in  update other than TANUVAS service record. $logmessage ." );
+                    $this->logger->write_dblogmessage("error","Error in update staff ott service record ", "Error in update staff other than TANUVAS service record. $logmessage ." );
+                    $this->session->set_flashdata('err_message','Error in update staff ott service record');
+                    $this->load->view('empmgmt/edit_ottservicedata',$eds_data);
+                }
+                else{
+                    $this->roleid=$this->session->userdata('id_role');
+                    $this->currentlog=$this->session->userdata('username');
+			$empsdempid=$this->sismodel->get_listspfic1('employee_ottsd','empottsd_empid','empottsd_id', $id)->empottsd_empid;
+                    $empcode=$this->sismodel->get_listspfic1('employee_master','emp_code','emp_id',$empsdempid)->emp_code;
+                    $this->logger->write_logmessage("update","Edit Staff ott Service Data", "Staff other than TANUVAS Service Data updated successfully. $logmessage ." );
+                    $this->logger->write_dblogmessage("update","Edit Staff ott service Data", "Staff other than TANUVAS Service Data updated successfully. $logmessage ." );
+                    $this->session->set_flashdata('success','Other than TANUVAS Service record updated successfully. '."["." "."Employee PF NO:"." ".$empcode." and "."Username:"." ".$this->currentlog." "."]");
+                    
+                    if($this->roleid == 4){
+                        redirect('empmgmt/viewempprofile');
+                    }
+                    else{
+			$uid = $this->sismodel->get_listspfic1('employee_ottsd','empottsd_empid','empottsd_id',$id)->empottsd_empid;
                         redirect('report/service_profile/'.$uid);
                     }
                                         
@@ -4608,6 +4800,51 @@ public function add_addionalassigndata($empid) {
 	    $this->logger->write_logmessage("delete", " User ". $lemail ." ( ".$usrid .") want to Delete employee_servicedetail Record  ". " [id:" . $id . "]");
             $this->logger->write_dblogmessage("delete", " User " .  $lemail ." ( ".$usrid .") want to Delete employee_servicedetail Record  " . " [id:" . $id . "]");
             $this->session->set_flashdata("err_message", 'Sorry. You do not have the right to delete the employee service record.' );
+            redirect('report/service_profile/'.$this->emp_id);
+	}
+        $this->load->view('report/service_profile/'.$this->emp_id);
+
+    }//closer 
+    
+    public function delete_ottserviceprofile($id) {
+        $roleid=$this->session->userdata('id_role');
+        $this->roleid=$roleid;
+        $usrid=$this->session->userdata('id_user');
+        $this->emp_id=$this->sismodel->get_listspfic1('employee_ottsd', 'empottsd_empid', 'empottsd_id',$id)->empottsd_empid;
+
+	$hflag=false;
+        if($roleid == 5){
+               $hdept=$this->sismodel->get_listspfic1('user_role_type','deptid','userid',$this->session->userdata('id_user'))->deptid;
+               $empdeptid=$this->sismodel->get_listspfic1('employee_master', 'emp_dept_code', 'emp_id',$this->emp_id)->emp_dept_code;
+               if($hdept == $empdeptid){
+                        $hflag=true;
+                }
+        }
+
+        if(( $usrid == 1)||($hflag)){
+//	if(($roleid == 1)||($roleid == 5)){
+        /* Deleting academicprofile Record */
+        $delflag=$this->sismodel->deleterow('employee_ottsd','empottsd_id',$id);
+        if (! delflag   )
+        {
+            $this->logger->write_logmessage("delete", "Error in deleting employee_servicedetail other than TANUVAS record" . " [id:" . $id . "]");
+            $this->logger->write_dblogmessage("delete", "Error in deleting employee_ottsd record" . " [id:" . $id . "]");
+            $this->session->set_flashdata("err_message",'Error in deleting deleting employee_ottsd record - ');
+            redirect('report/service_profile/'.$this->emp_id);
+        }
+        else{
+
+            $this->logger->write_logmessage("delete", " Deleted employee_ottsd Record  ". " [id:" . $id . "]");
+            $this->logger->write_dblogmessage("delete", "Deleted employee_ottsd Record  " . " [id:" . $id . "]");
+            $this->session->set_flashdata("success", 'Record  Deleted successfully ...' );
+            redirect('report/service_profile/'.$this->emp_id);
+        }
+	}
+	else{
+	    $lemail = $this->lgnmodel->get_listspfic1('edrpuser', 'username', 'id',$usrid)->username;
+	    $this->logger->write_logmessage("delete", " User ". $lemail ." ( ".$usrid .") want to Delete employee_ottsd Record  ". " [id:" . $id . "]");
+            $this->logger->write_dblogmessage("delete", " User " .  $lemail ." ( ".$usrid .") want to Delete employee_ottsd Record  " . " [id:" . $id . "]");
+            $this->session->set_flashdata("err_message", 'Sorry. You do not have the right to delete the employee other than TANUVAS service record.' );
             redirect('report/service_profile/'.$this->emp_id);
 	}
         $this->load->view('report/service_profile/'.$this->emp_id);

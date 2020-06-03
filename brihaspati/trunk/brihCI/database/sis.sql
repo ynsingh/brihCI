@@ -331,6 +331,7 @@ CREATE TABLE `employee_master` (
   `emp_bankname` VARCHAR(255) default NULL,
   `emp_bankbranch` VARCHAR(255) default NULL, 
   `emp_bank_status` tinyint(1) default '0',
+  `emp_retage` INT(2) NOT NULL,
   `emp_dor` varchar(100) default NULL,
   `emp_leaving` varchar(100) default '1000-01-01 00:00:00',
   `emp_noti_day` int(11) default NULL,
@@ -2117,3 +2118,18 @@ CREATE TABLE `employee_rejoin` (
   `emprj_modifydate` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `employee_ottsd` (
+  `empottsd_id` int(11) PRIMARY KEY AUTO_INCREMENT,
+  `empottsd_empid` int(11)  NOT NULL,
+  `empottsd_datefrom` datetime NOT NULL,
+  `empottsd_fsession` varchar(255) NULL,
+  `empottsd_dateto` datetime NOT NULL,
+  `empottsd_tsession` varchar(255) NULL,
+  `empottsd_post` varchar(255) Default NULL,
+  `empottsd_estd` varchar(255) Default NULL,
+  `empottsd_uso` varchar(255) Default NULL,
+  `empottsd_creatorid` varchar(255) NOT NULL,
+  `empottsd_creatordate` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `empottsd_modifierid` varchar(255) NOT NULL,
+  `empottsd_modifydate` DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

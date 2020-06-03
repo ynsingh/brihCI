@@ -47,8 +47,8 @@ re-engineering in add profile according to tanuvas structure - 16 OCT 2017
                     this.value = this.value.replace(/[^0-9^-]/g, '');
                 }
             });*/
-            
             /*************************************************************calculate date of retirement******************/
+           // the retirement year has been changed as per request on 30 may 2020 is 58  to 59 
             $("#Dateofbirth").on('change',function(){
                 var dob= $(this).val();
                 var birthDate = new Date(dob);
@@ -57,7 +57,7 @@ re-engineering in add profile according to tanuvas structure - 16 OCT 2017
 		var wrktype_id = $('#worktypeid').val();
 
 		if(((grp_id =='B') && (wrktype_id == "Non Teaching"))||((grp_id =='C') && (wrktype_id == "Non Teaching"))){
-	                var retDate = new Date(birthDate.getFullYear() + 58, birthDate.getMonth(), birthDate.getDate()-1);
+	                var retDate = new Date(birthDate.getFullYear() + 59, birthDate.getMonth(), birthDate.getDate()-1);
 		}else{
 			var retDate = new Date(birthDate.getFullYear() + 60, birthDate.getMonth(), birthDate.getDate()-1);
 		}
