@@ -86,7 +86,9 @@
 
                                 if(($roleid == 1)||($flagffs)||($flagcppm)||($flagro)||($flaguooff)||($flaghod)){
 
-					echo anchor("empmgmt/add_servicedata/{$emp_id}"," Add ",array('title' => ' Add Service Data' , 'class' => 'red-link'));
+					echo anchor("empmgmt/add_ottservicedata/{$emp_id}"," Add Other Than TANUVAS Service ",array('title' => ' Add Other than TANUVAS Service Data' , 'class' => 'red-link'));
+					echo " | ";
+					echo anchor("empmgmt/add_servicedata/{$emp_id}"," Add Service Profile",array('title' => ' Add Service Data' , 'class' => 'red-link'));
 				}
 				?>
 				
@@ -173,8 +175,20 @@
                                     echo "<b>Pay Band-: </b>".$pbname."(".$pbmin."-".$pbmax.")".$pbgp."<br>"."<b>Grade Pay-: </b>".$gradepay."<br>"."<b>Level-: </b>" .$level."<br>"."<b>Date of AGP-: </b>".$dateofagp; ?>
                                 </td>
                                 <td>
-                                    <?php  $dojoin=implode('-', array_reverse(explode('-', $record->empsd_dojoin))); ?>
-                                    <?php  $dorelve=implode('-', array_reverse(explode('-', $record->empsd_dorelev))); ?>
+                                    <?php  
+					if((strcasecmp($record->empsd_dojoin,"1000-01-01")) !== 0){
+						$dojoin=implode('-', array_reverse(explode('-', $record->empsd_dojoin)));
+					}else{
+						$dojoin='';
+					}
+				 ?>
+                                    <?php  
+					if((strcasecmp($record->empsd_dorelev,"1000-01-01")) !== 0){
+						$dorelve=implode('-', array_reverse(explode('-', $record->empsd_dorelev)));
+					}else{
+                                                $dorelve='';
+                                        }
+				 ?>
 				    <?php echo "<b>From-: </b>".$dojoin ." ".$record->empsd_fsession."<br>"."<b>To-: </b>".$dorelve ." " .$record->empsd_tsession;
 					echo "<br>";
                                     echo "<b>Order NO.-: </b>".$record->empsd_orderno;
@@ -212,13 +226,60 @@
                                 </td> 
                             </tr>
                         <?php }; ?>
-				<tr><td align="left" colspan=3 > <b>Transit period is included in the service period </b></td><td colspan=3 style="text-align: right;"><?php echo $totalser; ?> </td></tr>
+				<tr><td align="left" colspan=3 > <b>Transit period is included in the service period </b></td><td colspan=7 style="text-align: right;"><?php echo $totalser; ?> </td></tr>
                         <?php else : ?>
                             <tr><td colspan= "10" align="center"> No Records found...!</td></tr>
                         <?php endif;?>
                     </tbody>    
 		</table>
 		<?php //include 'other_profile_perticulars.php'; ?>
+
+		<table class="TFtable" align="center">
+                    <thead>
+                        <tr>
+                            <td colspan=7 bgcolor=yellow><b>Service Details Other Than TANUVAS</b></td>
+                        </tr>
+                        <tr>
+                            <th>Sl. No.</th>
+                            <th>Post</th>
+                            <th>Establishment</th>
+                            <th>USO No.</th>
+                            <th>From</th>
+                            <th>To</th>
+				<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <?php if( !empty($ottservicedata) ): 
+				$si=0;
+                            foreach($ottservicedata as $record){
+				$si++;
+?>
+                        <tr>
+                      		<td> <?php echo $si; ?>        </td> 
+                      		<td> <?php echo $record->empottsd_post ; ?>        </td> 
+                      		<td> <?php echo $record->empottsd_estd ; ?>        </td> 
+                      		<td> <?php echo $record->empottsd_uso ; ?>        </td> 
+                      		<td> <?php echo $record->empottsd_datefrom ."<br>". $record->empottsd_fsession ; ?>        </td> 
+                      		<td> <?php echo $record->empottsd_dateto."<br>". $record->empottsd_tsession ; ?>        </td> 
+                                <td>
+                                <?php 
+				if(($roleid == 1)||($flagffs)||($flagcppm)||($flagro)||($flaguooff)||($flaghod)){
+
+						echo anchor("empmgmt/edit_ottservicedata/{$record->empottsd_id}","Edit",array('title' => ' Edit OTT Service Data' , 'class' => 'red-link'));
+						echo "  <br><br> ";
+						echo anchor("empmgmt/delete_ottserviceprofile/{$record->empottsd_id}","Delete",array('title' => ' Delete OTT Service Data' , 'class' => 'red-link'));
+					}
+				?>
+                                </td> 
+                        </tr>
+                        <?php }; ?>
+                        <?php else : ?>
+                            <tr><td colspan= "10" align="center"> No Records found...!</td></tr>
+                        <?php endif;?>
+                    </tbody>    
+		</table>
 		<table style="width:100%;">
         	<tr>
         	<td align=right>

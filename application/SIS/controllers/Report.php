@@ -482,6 +482,10 @@ class Report  extends CI_Controller
         $whorder = 'empsd_dojoin desc,empsd_id desc';
         $emp_data['servicedata'] = $this->sismodel->get_orderlistspficemore('employee_servicedetail',$selectfield,$whdata,$whorder);
 
+        $whdata = array ('empottsd_empid' => $emp_id);
+        $whorder = 'empottsd_datefrom desc,empottsd_id desc';
+        $emp_data['ottservicedata'] = $this->sismodel->get_orderlistspficemore('employee_ottsd',$selectfield,$whdata,$whorder);
+	
 	$emp_data['uoempid']=$this->getempuoid();
 	$emp_data['hodempid']=$this->getemphodid();
 
