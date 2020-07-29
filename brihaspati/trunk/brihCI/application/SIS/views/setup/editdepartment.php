@@ -189,11 +189,11 @@
 
             echo "<tr>";
                 echo "<td>";
-                    echo form_label('Department Email', 'deptemail');
+                echo form_label('Department Email', 'deptemail');
                 echo "</td>";
                 echo "<td>";
 
-                    echo form_input($deptmail);
+                echo form_input($deptmail);
                 echo "</td>";
                 echo "<td>";
                     echo " Example :  ee@iitk.ac.in";
