@@ -30,10 +30,12 @@
                                 <?php
                                 $uname=$this->session->userdata('username');
                                 $empid=$this->uri->segment(3,0);
+				$rlid=$this->session->userdata('id_role');
+
                                
-                //              $rest = substr($uname, -21);
+                 //             $rest = substr($uname, -21);
 		//		if(($roleid == 1)||($flagffs)||($flagcppm)||($flagro)||($flaguooff)||($flaghod)){
-				if($uname == "admin"){
+				if(($uname == "admin")||($rlid==5)){
                                     if($empid !=0){    
                                         echo anchor("upl/uploaddocumentlist/".$empid,"Upload Support Document ",array('title' => 'Upload Support Document' , 'class' => 'red-link'));
                                     }

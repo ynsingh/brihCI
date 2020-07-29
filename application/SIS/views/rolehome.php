@@ -79,7 +79,6 @@
                     <table align="center">  
                 
 			<?php  
-
 			foreach($this->roles as $row){ 
                              
                             if($row->roleid == 1){ 
@@ -133,6 +132,7 @@
                                 echo "<tr><td><p>";
                                 echo anchor("payhome", "Login As Payroll Administrator" ,array('title' => ' Login As Payroll Admin' , 'class' => 'top_parent'));
                                 echo"</p></td></tr>";
+			}
                             
 		}
 		?>
@@ -147,5 +147,3 @@
     </div>
 </body>   
 </html>    
-
-

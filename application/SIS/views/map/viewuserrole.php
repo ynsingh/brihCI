@@ -75,10 +75,13 @@
                 <?php foreach($this->result as $record){ ?>
                     <tr>
                     <td><?php echo $serial_no++; ?></td>                     
-                    <td><?php 
+                    <td><?php
+				$lnme=""; 
 				$obj=$this->loginmodel->get_listspfic1('edrpuser','username','id',$record->userid);
 				if(!empty($obj)){
-					echo  $obj->username;
+					
+					$lnme= $obj->username;
+					echo $lnme;
 //echo $this->loginmodel->get_listspfic1('edrpuser','username','id',$record->userid)->username;
 				}  ?></td> 
                     <td><?php echo $record->usertype; ?></td>
@@ -93,12 +96,26 @@
 					echo $this->commodel->get_listspfic1('study_center','sc_name', 'sc_id',$record->scid)->sc_name;
 				}
 		?></td>
-                     <?php if($record->userid==1 && $record->roleid ==1): ?> 
-                    <td> <?php  //echo anchor(current_url().'/#', "Delete",array('title' => 'Details' , 'class' => 'tag_color')); ?>&nbsp;
-                    &nbsp;<?php  //echo anchor(current_url().'/#',"Edit",array('title' => 'Details' , 'class' => 'tag_color')); ?></td>
+                     <?php 
+			//if($record->userid==1 && $record->roleid ==1):
+			if($this->session->userdata('id_role') === 1):
+			 ?> 
+			
+                    <td>
+                    &nbsp;<?php  
+				$len = strlen("admin");
+				if(!(substr($lnme, -$len) === "admin")){
+					echo anchor("map/edituserrole/{$record->id}","Edit",array('title' => 'Details' , 'class' => 'red-link'));
+				} 
+			?>
+			 <?php  //echo anchor(current_url().'/#', "Delete",array('title' => 'Details' , 'class' => 'tag_color')); ?>&nbsp;
+                    &nbsp;<?php  //echo anchor(current_url().'/#',"Edit",array('title' => 'Details' , 'class' => 'tag_color')); ?>
+		</td>
 		    <?php else : ?>	
-                    <td> <?php  //echo anchor("map/deleteuserrole/{$record->id}", "Delete",array('title' => 'Details' , 'class' => 'red-link' ,'onclick' => "return confirm('Are you sure you want to delete this record')")); ?>&nbsp;
-                    &nbsp;<?php  echo anchor("map/edituserrole/{$record->id}","Edit",array('title' => 'Details' , 'class' => 'red-link')); ?></td>
+                    <td>
+			 <?php  //echo anchor("map/deleteuserrole/{$record->id}", "Delete",array('title' => 'Details' , 'class' => 'red-link' ,'onclick' => "return confirm('Are you sure you want to delete this record')")); ?>&nbsp;
+                    &nbsp;<?php // echo anchor("map/edituserrole/{$record->id}","Edit",array('title' => 'Details' , 'class' => 'red-link')); ?>
+			</td>
 			<?php endif ;?>
                      </tr>
                 <?php }; ?>

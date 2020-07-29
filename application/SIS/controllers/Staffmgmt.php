@@ -596,14 +596,15 @@ class Staffmgmt extends CI_Controller
 		$dateodassrex=$_POST['assrexamdate'];
 		$dateophd=$_POST['dateofphd'];
 
-//		$diff = abs(strtotime($date2) - strtotime($date1));
-//		$years = floor($diff / (365*60*60*24));
 
 		$older=$_POST['DateofBirth'];
 		$newer=$_POST['dateofretirement'];
-		$rety1 = $older->format('Y');
-		$rety2 = $newer->format('Y');
-		$rety = $rety2 - $rety1; 
+//		$rety1 = $older->format('Y');
+//		$rety2 = $newer->format('Y');
+//		$rety = $rety2 - $rety1; 
+
+		$diff = abs(strtotime($newer) - strtotime($older));
+		$rety = floor($diff / (365*60*60*24));
 
                 $data = array(
                     'emp_code'                  =>$_POST['empcode'],
@@ -1198,9 +1199,11 @@ class Staffmgmt extends CI_Controller
 		
 		$older=$this->input->post('DateofBirth');
                 $newer=$this->input->post('dateofretirement');
-                $rety1 = $older->format('Y');
-                $rety2 = $newer->format('Y');
-                $rety = $rety2 - $rety1;
+            //    $rety1 = $older->format('Y');
+              //  $rety2 = $newer->format('Y');
+                //$rety = $rety2 - $rety1;
+		$diff = abs(strtotime($newer) - strtotime($older));
+		$rety = floor($diff / (365*60*60*24));
                 //'emp_pnp'                        => $this->input->post('pnp'),
             $data = array(
 		'emp_code'			=> $this->input->post('empcode'),
@@ -1732,9 +1735,13 @@ class Staffmgmt extends CI_Controller
                     $postfrom=$this->commodel->get_listspfic1('designation','desig_id','desig_name',$_POST['postfrom'])->desig_id;    
                     //descrease position and increase vacancy from old data(means from )
                     $this->sismodel->updatestaffposition2($_POST['campusfrom'],$_POST['uocfrom'],$_POST['deptfrom'],$postfrom,$_POST['employeetype'],$_POST['empptfrom'],$_POST['schemfrom']);
+		    $this->logger->write_logmessage("error","data in Staff Transfer and Posting on date".date('y-m-d'), "data in Staff Transfer and Posting - campus ".$_POST['campusfrom']." uofrom :".$_POST['uocfrom']." deptfrom :".$_POST['deptfrom']." postfrom :".$postfrom." emptype :".$_POST['employeetype']." pt :".$_POST['empptfrom']." schemefrom :".$_POST['schemfrom'] );
+                    $this->logger->write_dblogmessage("error","data in Staff Transfer and Posting on date".date('y-m-d'), "data in Staff Transfer and Posting - campus ".$_POST['campusfrom']." uofrom :".$_POST['uocfrom']." deptfrom :".$_POST['deptfrom']." postfrom :".$postfrom." emptype :".$_POST['employeetype']." pt :".$_POST['empptfrom']." schemefrom :".$_POST['schemfrom']);
                     //echo"to datta===".$_POST['campus'].$_POST['uocontrolto'].$_POST['deptto'].$_POST['postto'].$_POST['emptypeto'].$_POST['vacanttype'];
                     //increase in position and decrease vacancy from new data(means to)
                     $this->sismodel->updatestaffposition($_POST['campus'],$_POST['uocontrolto'], $_POST['deptto'],$_POST['postto'],$_POST['emptypeto'],$_POST['vacanttype']) ;
+		    $this->logger->write_logmessage("error","data in Staff Transfer and Posting on date".date('y-m-d'), "data in Staff Transfer and Posting - campus ".$_POST['campus']." uoto :".$_POST['uocontrolto']." deptto :".$_POST['deptto']." postto :".$_POST['postto']." emptypeto :".$_POST['emptypeto']." vtype :".$_POST['vacanttype']);
+                    $this->logger->write_dblogmessage("error","data in Staff Transfer and Posting on date".date('y-m-d'), "data in Staff Transfer and Posting - campus ".$_POST['campus']." uoto :".$_POST['uocontrolto']." deptto :".$_POST['deptto']." postto :".$_POST['postto']." emptypeto :".$_POST['emptypeto']." vtype :".$_POST['vacanttype']) ;
                     }
                 
                 }//else$usrinputtfr_flag

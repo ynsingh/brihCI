@@ -1101,7 +1101,7 @@ class Setup extends CI_Controller
 			                                redirect('setup/dispdepartment');
                         			}
                         			else{
-							$deptemail = $this->input->post("dept_mail");
+							$deptemail = strtolower($this->input->post("dept_mail"));
 							if(!empty( $deptemail)){
 								$isdup= $this->login_model->isduplicate('edrpuser','username',$deptemail);
 				                                $parts = explode("@", $deptemail);
@@ -1305,7 +1305,6 @@ class Setup extends CI_Controller
            'maxlength' => '255',
            'size' => '40',
            'value' => $dept_data->dept_email,
-		'readonly' => 'readonly',
         );
         $data['id'] = $id;
 
@@ -1350,7 +1349,7 @@ class Setup extends CI_Controller
             $departmentname = ucwords(strtolower($this->input->post('deptname', TRUE)));
             $departmentshort =strtoupper($this->input->post('deptshort', TRUE));
             $departmentdescription = $this->input->post('deptdescription', TRUE);
-//            $deptsccode = strtoupper($this->input->post('deptsccode',TRUE));
+            $deptemail= strtolower($this->input->post('deptemail',TRUE));
   //          $deptorgcode = strtoupper($this->input->post('deptorgcode', TRUE));
 
 	    $logmessage = "";
@@ -1364,6 +1363,8 @@ class Setup extends CI_Controller
                 $logmessage = $logmessage ." update dept name " .$dept_data->dept_name. " changed by " .$departmentname;
             if($dept_data->dept_short != $departmentshort)
                 $logmessage = $logmessage ." update dept short " .$dept_data->dept_short. " changed by " .$departmentshort;
+            if($dept_data->dept_email != $deptemail)
+                $logmessage = $logmessage ." update dept email " .$dept_data->dept_email. " changed by " .$deptemail;
             if($dept_data->dept_description != $departmentdescription)
                 $logmessage = $logmessage ." update dept description " .$dept_data->dept_description. " changed by " .$departmentdescription;
          // insert data into department archive table
@@ -1374,6 +1375,7 @@ class Setup extends CI_Controller
                  'depta_deptid'=>$dept_data->dept_id,
                  'depta_name'=>$dept_data->dept_name,
                  'depta_code'=>$dept_data->dept_code,
+                 'depta_email'=>$dept_data->dept_email,
                  'depta_uoid'=>$dept_data->dept_uoid,
                  'depta_short'=>$dept_data->dept_short,
                  'depta_description'=>$dept_data->dept_description,
@@ -1397,6 +1399,7 @@ class Setup extends CI_Controller
                'dept_schoolcode' => $schoolcode,
                'dept_schoolname' => $schoolname,
                'dept_code' => $departmentcode,
+               'dept_email' => $deptemail,
                'dept_name'  => $departmentname,
                'dept_short'  => $departmentshort,
                'dept_description' => $departmentdescription,
@@ -1420,6 +1423,76 @@ class Setup extends CI_Controller
                 $this->load->view('setup/editdepartment', $data);
             }
             else{
+								$isdup= $this->login_model->isduplicate('edrpuser','username',$deptemail);
+				                                $parts = explode("@", $deptemail);
+                                				$ename = $parts[0];
+				                                $passwd=md5($ename);
+                                				if(!$isdup){
+				                                    	$dataeu = array(
+					                                        'username'=> $deptemail,
+                                        					'password'=> $passwd,
+					                                        'email'=> $deptemail,
+                                        					'componentreg'=> '*',
+					                                        'mobile'=>'',
+                                        					'status'=>1,
+					                                        'category_type'=>'HOD',
+                                        					'is_verified'=>1
+					                                );
+                                    						/*insert record in edrpuser table*/
+					                                $userflageu=$this->login_model->insertrec('edrpuser', $dataeu);
+                                    					$userid=$this->login_model->get_listspfic1('edrpuser','id','username',$deptemail)->id;
+					                                if($userflageu){
+
+					                                       // insert into  user profile db1
+                                        					$dataup = array(
+					                                        	'userid' => $userid,
+						                                        'firstname' => 'Head of the Department',
+                                            						'lang' => 'english',
+                                            						'mobile' => '',
+                                            						'status' => 1
+                                        					);
+                                        					$userflagup=$this->login_model->insertrec('userprofile', $dataup);
+									}
+								}//isdup email
+								else{
+                                        				$userid=$this->login_model->get_listspfic1('edrpuser','id','username',$deptemail)->id;
+                                				}
+                                        			// check for duplicate in hod list table
+								$campusid = $this->common_model->get_listspfic1('study_center','sc_id','sc_code',$deptsccode)->sc_id;
+								$deptid = $this->common_model->get_listspfic1('Department','dept_id','dept_code',$departmentcode)->dept_id;
+                                        			$duphod = array('hl_userid' => $userid, 'hl_scid' => $campusid,'hl_deptid'=> $deptid);
+                                        			$isduphod= $this->SIS_model->isduplicatemore('hod_list',$duphod);
+                                        			if(!$isduphod){
+                                            				$usr =$this->session->userdata('username');
+                                            				$datahod = array(
+				                                                'hl_userid'=> $userid,
+                                                				'hl_empcode'=> '',
+                                                				'hl_deptid'=> $deptid,
+                                                				'hl_scid'=> $campusid,
+                                                				'hl_uopid' => $deptuoid,
+                                                				'hl_datefrom'=> date('y-m-d'),
+                                                				'hl_dateto'=> '',
+                                                				'hl_status'=> 'full time',
+                                                				'hl_creatorid'=> $usr,
+				                                                'hl_creatordate'=> date('y-m-d'),
+                                				                'hl_modifierid'=> $usr,
+				                                                'hl_modifydate'=> date('y-m-d'),
+                                			            	);
+                                            				$hodlistflag=$this->SIS_model->insertrec('hod_list', $datahod) ;
+                                            				if($hodlistflag){
+				                                                /* insert into user_role_type */
+                                				                $dataurt = array(
+                                                    					'userid'=> $userid,
+                                                    					'roleid'=> 5,
+                                                    					'deptid'=> $deptid,
+                                                    					'scid'=>  $campusid,
+                                                   					'usertype'=>'HoD'
+                                                				);
+                                                				$userflagurt=$this->SIS_model->insertrec('user_role_type', $dataurt) ;
+                                                		//		if($userflagurt){
+								//		}
+									}
+								}// end dup hod
                 $this->logger->write_logmessage("update","Edit Department", "Department record updated successfully..". $logmessage );
                 $this->logger->write_dblogmessage("update","Edit Department", "Department record updated successfully..". $logmessage );
                 $this->session->set_flashdata('success','Department record updated successfully...');
